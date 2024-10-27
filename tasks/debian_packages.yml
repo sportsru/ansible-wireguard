@@ -12,6 +12,18 @@
     state: present
     update_cache: yes
   register: upgrade
+  when: ansible_distribution_version != '24.04'
+  tags:
+    - wireguard_install
+    - wireguard_upgrade
+
+- name: Install wireguard
+  apt:
+    name: "{{ 'wireguard=' + wireguard_version if wireguard_version != '' else 'wireguard' }}"
+    state: present
+    update_cache: yes
+  register: upgrade
+  when: ansible_distribution_version == '24.04'
   tags:
     - wireguard_install
     - wireguard_upgrade
